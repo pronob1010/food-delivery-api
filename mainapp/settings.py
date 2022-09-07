@@ -42,9 +42,15 @@ INSTALLED_APPS = [
     'orders.apps.OrdersConfig',
     'rest_framework',
     'phonenumber_field',
+    'djoser',
 ]
 
 AUTH_USER_MODEL = 'authentication.User'
+
+REST_FRAMEWORK = {
+    'NON_FIELD_ERRORS_KEY' : 'errors'
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
