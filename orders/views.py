@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from rest_framework import generics, status 
 from rest_framework.response import Response
+from django.shortcuts import get_object_or_404
 
 from orders.models import Order
 from . import serializers
@@ -34,9 +35,14 @@ class OrderCreateListView(generics.GenericAPIView):
         return Response(data=serializer.errors , status=status.HTTP_400_BAD_REQUEST)
 
 
-class OrderDetails(generics.GenericAPIView):
+class OrderDetailsView(generics.GenericAPIView):
+    serializer_class = serializers.OrderDetailSerializer
     def get(self, request, order_id):
-        pass
+        order = get_object_or_404(Order, pk = order_id)
+        serializer = self.serializer_class(instance = order)
+        return Response(data = serializer.data, status = status.HTTP_200_OK)
 
-    def post(self, request, order_id):
-        pass
+    # def put(self, request, order_id):
+
+    # def post(self, request, order_id):
+        # pass
