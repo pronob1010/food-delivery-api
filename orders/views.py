@@ -42,7 +42,17 @@ class OrderDetailsView(generics.GenericAPIView):
         serializer = self.serializer_class(instance = order)
         return Response(data = serializer.data, status = status.HTTP_200_OK)
 
-    # def put(self, request, order_id):
+    def post(self, request, order_id):
+        data = request.data
+        serializer = self.serializer_class(data=data)
+        user = request.user
 
-    # def post(self, request, order_id):
+        if serializer.is_valid():
+            serializer.save(customer = user)
+
+            return Response(data=serializer.data, status=status.HTTP_200_OK)
+        
+        return Response(data=serializer.data, status = status.HTTP_400_BAD_REQUEST)
+
+    # def put(self, request, order_id):
         # pass
