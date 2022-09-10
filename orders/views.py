@@ -38,12 +38,12 @@ class OrderCreateListView(generics.GenericAPIView):
 class OrderDetailsView(generics.GenericAPIView):
     serializer_class = serializers.OrderDetailSerializer
     permission_classes =[IsAuthenticated]
-
+# get
     def get(self, request, order_id):
         order = get_object_or_404(Order, pk = order_id)
         serializer = self.serializer_class(instance = order)
         return Response(data = serializer.data, status = status.HTTP_200_OK)
-
+#post
     def post(self, request, order_id):
         data = request.data
         serializer = self.serializer_class(data=data)
@@ -55,7 +55,7 @@ class OrderDetailsView(generics.GenericAPIView):
             return Response(data=serializer.data, status=status.HTTP_200_OK)
         
         return Response(data=serializer.data, status = status.HTTP_400_BAD_REQUEST)
-
+#put
     def put(self, request, order_id):
         data = request.data 
         order = get_object_or_404(Order, pk = order_id)
@@ -67,7 +67,7 @@ class OrderDetailsView(generics.GenericAPIView):
         
         return Response(data=serializer.data, status = status.HTTP_400_BAD_REQUEST)
     
-
+#delete
     def delete(self, order_id):
         order = get_object_or_404(Order, pk=order_id)
         order.delete()
