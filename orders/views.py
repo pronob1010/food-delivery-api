@@ -66,4 +66,10 @@ class OrderDetailsView(generics.GenericAPIView):
             return Response(data=serializer.data, status=status.HTTP_200_OK)
         
         return Response(data=serializer.data, status = status.HTTP_400_BAD_REQUEST)
-        
+    
+
+    def delete(self, request, order_id):
+        data = request.data
+        order = get_object_or_404(Order, pk=order_id)
+        order.delete()
+        return Response(status= status.HTTP_204_NO_CONTENT)
