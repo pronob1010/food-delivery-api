@@ -11,7 +11,7 @@ class OrderCreationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields =['size', 'order_status', 'quantity']
+        fields =['id', 'size', 'order_status', 'quantity']
 
 class OrderDetailSerializer(serializers.ModelSerializer):
     size = serializers.CharField(max_length=20)
@@ -22,4 +22,4 @@ class OrderDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields =['size', 'order_status', 'quantity', 'created_at', 'updated_at']
+        fields =['id', 'size', 'order_status', 'quantity', 'created_at', 'updated_at']
