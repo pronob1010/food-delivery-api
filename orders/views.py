@@ -6,6 +6,8 @@ from django.shortcuts import get_object_or_404
 from orders.models import Order
 from . import serializers
 from rest_framework.permissions import IsAuthenticated
+
+import orders
 # Create your views here.
 
 
@@ -72,3 +74,19 @@ class OrderDetailsView(generics.GenericAPIView):
         order = get_object_or_404(Order, pk=order_id)
         order.delete()
         return Response(status= status.HTTP_204_NO_CONTENT)
+
+
+class UpdateOrderStatus(generics.GenericAPIView):
+    serializer_class = serializers.OrderStatusUpdateSerializer
+
+    def put(self, request, order_id):
+        order = get_object_or_404(Order, pk = order_id)
+        data = request.data
+        serializer = self.serializer_class(data=data, instance=order)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(data=serializer.data, status = status.HTTP_200_OK)
+        
+        return Response(data=serializer.data, status = status.HTTP_400_BAD_REQUEST)
+
