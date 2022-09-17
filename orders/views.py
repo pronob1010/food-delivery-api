@@ -96,5 +96,5 @@ class UserOrdersView(generics.GenericAPIView):
     def get(self, request, user_id):
         user = User.objects.get(pk= user_id)
         orders = Order.objects.all().filter(customer = user)
-        serializer = self.serializer_class(instance=orders)
+        serializer = self.serializer_class(instance=orders, many=True)
         return Response(data = serializer.data, status= status.HTTP_200_OK)
