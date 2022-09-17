@@ -3,7 +3,7 @@ from rest_framework import generics, status
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 
-from orders.models import Order
+from orders.models import Order, User
 from . import serializers
 from rest_framework.permissions import IsAuthenticated
 
@@ -90,3 +90,12 @@ class UpdateOrderStatus(generics.GenericAPIView):
         
         return Response(data=serializer.data, status = status.HTTP_400_BAD_REQUEST)
 
+class UserOrdersView(generics.GenericAPIView):
+    serializer_class = serializers.OrderDetailSerializer
+
+    def get(self, request, user_id):
+        user = User.objects.get(pk= user_id)
+
+        orders = Order.objects.all().filter(customer = user)
+
+        return Response(data = serializers.data, status= status.HTTP_200_OK)
